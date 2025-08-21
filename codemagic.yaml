@@ -1,0 +1,27 @@
+workflows:
+  default-workflow:
+    name: Build Flutter App
+    environment:
+      flutter: stable
+      vars:
+        ENCODED_ENV: EICBBUFBJRCA9ICIxMDU0NTkiOwogIEFVVEhLRVkgPSAiYWtfWkxNZXpmamMyeGdtQjlnIjsKICBBVVRIU0VDUkVUID0gImFzX2ZQeTNVckZSUC1nbWtlViI7CiAgQUNDT1VOVEtFWSA9ICJhY2tfX0JiNDJLQ3dScmUtMmM0enNQVkgiOw==
+    scripts:
+      - name: Decode and write .env
+        script: echo $ENCODED_ENV | base64 --decode > .env
+
+      - name: Get Flutter packages
+        script: flutter pub get
+
+      - name: Run build
+        script: flutter build apk --debug
+      - name: Update CocoaPods
+        script: |
+          cd ios
+          pod repo update
+          pod install
+          cd ..
+
+
+    artifacts:
+      - build/app/outputs/**/*.apk
+  
