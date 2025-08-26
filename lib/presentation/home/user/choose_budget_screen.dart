@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ofwhich_v2/domain/user_service/model/user_object.dart';
-import 'package:ofwhich_v2/presentation/core/font.dart';
 import 'package:ofwhich_v2/presentation/general_widgets/custom_appbar.dart';
-import 'package:ofwhich_v2/presentation/general_widgets/custom_button.dart';
-import 'package:ofwhich_v2/presentation/home/user/choose_date_screen.dart';
 import 'package:ofwhich_v2/presentation/home/user/widgets/price_selection_screen.dart';
 
 class ChooseBudgetScreen extends StatelessWidget {
@@ -40,9 +37,11 @@ class ChooseBudgetScreen extends StatelessWidget {
             SizedBox(
               height: 35.h,
             ),
-            SizedBox(
-              height:400.h,
-              child: PriceSelectionScreen(profile: profile,))
+            Expanded(
+              child: PriceSelectionScreen(
+                profile: profile,
+              ),
+            )
           ],
         ),
       ),
@@ -52,36 +51,30 @@ class ChooseBudgetScreen extends StatelessWidget {
 
 Widget _priceTile(String price, String priceDetails) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal:15.w ),
+    padding: EdgeInsets.symmetric(horizontal: 15.w),
     height: 63.h,
-   
-       decoration: BoxDecoration(
+    decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.02),
-            border: Border.all(color: Color.fromRGBO(231, 231, 231, 1)),
-            borderRadius: BorderRadius.circular(15.r)
-     ),
-  
+        border: Border.all(color: Color.fromRGBO(231, 231, 231, 1)),
+        borderRadius: BorderRadius.circular(15.r)),
     child: Row(
       children: [
         Text.rich(
           TextSpan(
-            text: "\$$price - ",
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
-            children: [
-              TextSpan(
-                text : "$priceDetails",
-                style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w400),
-              )
-            ]
-            ),
-            ),
-
-      
+              text: "\$$price - ",
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
+              children: [
+                TextSpan(
+                  text: "$priceDetails",
+                  style:
+                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400),
+                )
+              ]),
+        ),
       ],
     ),
   );
 }
-
 
 class RadioButtonSelectio extends StatefulWidget {
   final Function(String) onChanged;
@@ -107,18 +100,18 @@ class _RadioButtonSelectioState extends State<RadioButtonSelectio> {
         children: [
           // const Text("Select Gender"),
           RadioListTile<String>(
-            title:   Text.rich(TextSpan(
-            text: "\$ - ",
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
-            children: [
+            title: Text.rich(
               TextSpan(
-                text : "Budget friendly",
-                style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w400),
-              )
-            ]
-            ),
-            
-            
+                  text: "\$ - ",
+                  style:
+                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
+                  children: [
+                    TextSpan(
+                      text: "Budget friendly",
+                      style: TextStyle(
+                          fontSize: 16.sp, fontWeight: FontWeight.w400),
+                    )
+                  ]),
             ),
             value: 'male',
             groupValue: _selectedGender,

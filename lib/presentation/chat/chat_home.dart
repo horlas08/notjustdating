@@ -373,11 +373,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ofwhich_v2/application/chat_view_model/chat_view_model.dart';
 // import 'package:ofwhich_v2/domain/user_service/model/firebase_user_model.dart';
 import 'package:ofwhich_v2/presentation/chat/model/message_model.dart';
+import 'package:ofwhich_v2/presentation/general_widgets/custom_appbar.dart';
 // import 'package:ofwhich_v2/presentation/chat/model/recent_matches.dart';
 import 'package:ofwhich_v2/presentation/routes/app_router.dart';
 import 'package:ofwhich_v2/presentation/routes/app_router.gr.dart';
 // import 'package:ofwhich_v2/presentation/utils/util.dart';
 import 'package:provider/provider.dart';
+
 // import 'package:quickblox_sdk/models/qb_dialog.dart';
 
 import '../../domain/user_service/model/user_object.dart';
@@ -551,26 +553,70 @@ class _ChatHomeScreenState extends State<ChatHomeScreen>
       child: Consumer<ChatViewModel>(
         builder: (context, model, child) => SafeArea(
           child: Scaffold(
+            appBar: OfWhichAppBar(
+              titleText: 'My Dates',
+              backgroundColor: Colors.white,
+              leadingIcon: false,
+            ),
+            backgroundColor: Colors.white,
             body: Column(
               children: [
-                SizedBox(height: 10.h),
-                Align(
-                  child: Image.asset(
-                    "assets/images/pngs/logo2.png",
-                    scale: 2.0,
-                  ),
-                ),
-                SizedBox(height: 20.h),
-
                 // Tab Bar
                 TabBar(
                   controller: _tabController,
                   labelColor: Colors.black,
                   unselectedLabelColor: Colors.grey,
                   indicatorColor: Colors.black,
-                  tabs: const [
-                    Tab(text: 'Matches'),
-                    Tab(text: 'Requests'),
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicator: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Theme.of(context).primaryColor,
+                          width: 2,
+                        ),
+                      ),
+                      shape: BoxShape.rectangle),
+                  tabs: [
+                    Tab(
+                      text: "Upcoming",
+                    ),
+                    Tab(
+                      text: "Requests",
+                    ),
+                    // Container(
+                    //   width: double.infinity,
+                    //   margin: EdgeInsets.zero,
+                    //   padding: EdgeInsets.symmetric(vertical: 12),
+                    //   decoration: BoxDecoration(
+                    //     border: Border(
+                    //       bottom: BorderSide(
+                    //         width: 2,
+                    //         color: Theme.of(context).primaryColor,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   child: Text(
+                    //     "Upcoming",
+                    //     textAlign: TextAlign.center,
+                    //   ),
+                    // ),
+                    // Container(
+                    //   width: double.infinity,
+                    //   margin: EdgeInsets.zero,
+                    //   padding: EdgeInsets.symmetric(vertical: 12),
+                    //   decoration: BoxDecoration(
+                    //     border: Border(
+                    //       bottom: BorderSide(
+                    //         width: 1,
+                    //         color: Theme.of(context).primaryColor,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   child: Text(
+                    //     "Requests",
+                    //     textAlign: TextAlign.center,
+                    //   ),
+                    // )
                   ],
                 ),
 

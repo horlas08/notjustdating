@@ -13,6 +13,8 @@ class UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current user as UserModel
+
     final imageUrl = user.photo ?? user.pictures?[0].file_url;
     final location = user.address?.address ?? "Unknown";
 
@@ -143,8 +145,9 @@ class UserCard extends StatelessWidget {
                               child: Text(
                                 "I'll go for a drink",
                                 style: TextStyle(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w400),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             ),
                           ),

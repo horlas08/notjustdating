@@ -1,27 +1,22 @@
 // import 'dart:developer';
 
-import 'package:auto_route/annotations.dart';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:flutter_tinder_swipe/flutter_tinder_swipe.dart';
 import 'package:ofwhich_v2/injectable.dart';
+import 'package:ofwhich_v2/presentation/home/user/widgets/cards_stack_widget.dart';
 // import 'package:ofwhich_v2/presentation/home/user/matched_profile.dart';
 import 'package:ofwhich_v2/presentation/home/user/widgets/filter_edit_screen.dart';
 import 'package:ofwhich_v2/presentation/home/user/widgets/top_action_buttons.dart';
+import 'package:ofwhich_v2/presentation/routes/app_router.gr.dart';
 // import 'package:ofwhich_v2/presentation/routes/app_router.gr.dart';
 import 'package:provider/provider.dart';
+
 // import 'package:stacked/stacked.dart';
 
 import '../../../application/home_view_model/home_view_model.dart';
-// import '../../core/font.dart';
-import '../../general_widgets/app_logo.dart';
-
 import '../../general_widgets/refresh_widget.dart';
-
-
-import 'widgets/cards_stack_widget.dart';
-
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -47,10 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return Consumer<HomeViewModel>(
-      // viewModelBuilder: () => getIt<HomeViewModel>(),
-      // onViewModelReady: (c) {
-
-      // },
       builder: (context, model, child) => Scaffold(
           body: RefreshWidget(
         onRefresh: () async {
@@ -58,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: Stack(
           children: [
-           
             Column(
               children: [
                 // Gradient 60%
@@ -93,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-      
+
             Column(
               children: [
                 SizedBox(
@@ -109,7 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           alignment: Alignment.centerLeft,
                           child: TopActionButtons(
                             icon: "assets/images/pngs/home_wallet_icon.png",
-                            onTap: () {},
+                            onTap: () {
+                              context.router.push(WalletHomePage());
+                            },
                             isSelected: true,
                           ),
                         ),
@@ -132,22 +124,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       TopActionButtons(
                         icon: "assets/images/pngs/refresh_icon.png",
-                        onTap: () {},
+                        onTap: () async {
+                          await getIt<HomeViewModel>().getFeed();
+                        },
                         isSelected: false,
                       ),
                       TopActionButtons(
                         icon: "assets/images/pngs/home_help_icon.png",
-                        onTap: () {},
+                        onTap: () {
+                          context.router.push(
+                            YourInterests(),
+                          );
+                        },
                         isSelected: false,
                       ),
-      
+
                       // InkResponse(
-      
+
                       //     onTap: () {
                       //       getIt<AppRouter>().push(const YourInterests());
                       //     },
                       //     child: Image.asset("assets/images/pngs/star.png")),
-      
+
                       // const AppLogo(),
                       // InkResponse(
                       //     onTap: () {
@@ -168,8 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: 13.h,
                 ),
-                
-               const CardsListWidget(),
+                const CardsListWidget(),
               ],
             ),
           ],

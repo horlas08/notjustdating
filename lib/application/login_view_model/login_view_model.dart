@@ -1,11 +1,9 @@
 import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
-import 'package:ofwhich_v2/application/group_view_model/group_view_model.dart';
 import 'package:ofwhich_v2/domain/chat/chat_service.dart';
 import 'package:ofwhich_v2/domain/core/constants/error_messages.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:stacked/stacked.dart';
 
 import '../../domain/auth/i_auth_facade.dart';
@@ -26,8 +24,15 @@ class LoginViewModel extends BaseViewModel {
       {required this.authFacade, required this.snackbarHandlerImpl});
   bool isSignInButtonActive = false;
 
+  bool obscureConfirmPassword = false;
+
   changeButtonState({required bool val}) {
     isSignInButtonActive = val;
+    notifyListeners();
+  }
+
+  togglePasswordVisibilty() {
+    obscureConfirmPassword = !obscureConfirmPassword;
     notifyListeners();
   }
 

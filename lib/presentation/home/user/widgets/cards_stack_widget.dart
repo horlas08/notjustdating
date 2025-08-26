@@ -1,11 +1,12 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ofwhich_v2/application/home_view_model/home_view_model.dart';
 import 'package:ofwhich_v2/presentation/home/user/matched_profile.dart';
 import 'package:provider/provider.dart';
-// import 'package:ofwhich_v2/presentation/general_widgets/app_image.dart';
-import 'package:stacked/stacked.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../domain/user_service/model/user_gift.dart';
 import '../../../../domain/user_service/model/user_object.dart';
@@ -14,7 +15,6 @@ import '../../../core/font.dart';
 import '../../../general_widgets/custom_button.dart';
 import '../../../routes/app_router.dart';
 import '../../../routes/app_router.gr.dart';
-import '../constants/swipe_enum.dart';
 // import '../model/flower_model.dart';
 
 import '../plan_date_screen.dart';
@@ -941,12 +941,15 @@ class _MatchCardWidgetState extends State<MatchCardWidget> {
                                 borderRadius: BorderRadius.circular(10.r),
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
+                              final authUser = await getUserSavedLocally();
+                              if (!context.mounted) return;
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => PlanDateScreen(
                                       profile: widget.profile,
+                                      authUser: authUser!,
                                     ),
                                   ));
                             },
@@ -987,5 +990,15 @@ class _MatchCardWidgetState extends State<MatchCardWidget> {
         ),
       ),
     );
+  }
+}
+
+Future<UserModel?> getUserSavedLocally() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String userString = prefs.getString("user") ?? "";
+  if (userString != "") {
+    return UserModel.fromMap(json.decode(userString));
+  } else {
+    return null;
   }
 }

@@ -4,14 +4,13 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:ofwhich_v2/domain/user_service/model/picture_model.dart';
 import 'package:ofwhich_v2/domain/user_service/model/user_object.dart';
-import 'package:ofwhich_v2/injectable.dart';
 import 'package:ofwhich_v2/presentation/core/font.dart';
 // import 'package:ofwhich_v2/presentation/home/user/choose_location_screen.dart';
 import 'package:ofwhich_v2/presentation/home/user/plan_date_screen.dart';
+import 'package:ofwhich_v2/presentation/home/user/widgets/cards_stack_widget.dart';
 // import 'package:ofwhich_v2/presentation/routes/app_router.dart';
 
 class MatchedProfile extends StatelessWidget {
@@ -20,23 +19,22 @@ class MatchedProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, String>> infoItems = [
+      {'title': 'Height', 'val': profile.height.toString()},
+      {'title': 'Weight', 'val': profile.weight.toString()},
+      {'title': 'Body Type', 'val': ""},
+      {'title': 'Sign', 'val': ""},
+      {'title': 'Smoke', 'val': profile.smokes ?? ""},
+      {'title': 'Alcohol', 'val': profile.drinks ?? ""},
+      {'title': 'Education', 'val': profile.education_level ?? ""},
+      {'title': 'Hobbies', 'val': ""},
+      {'title': 'Sexual Orientation', 'val': profile.sexual_orientation ?? ""},
+      {'title': 'Religion', 'val': profile.religion ?? ""},
+    ];
 
-List<Map<String, String>> infoItems = [
-  {'title': 'Height', 'val':profile.height.toString() },
-  {'title': 'Weight', 'val': profile.weight.toString()},
-  {'title': 'Body Type', 'val': ""},
-  {'title': 'Sign', 'val': ""},
-  {'title': 'Smoke', 'val': profile.smokes ?? ""},
-  {'title': 'Alcohol', 'val': profile.drinks ?? ""},
-  {'title': 'Education', 'val': profile.education_level ?? ""},
-  {'title': 'Hobbies', 'val': ""},
-  {'title': 'Sexual Orientation', 'val': profile.sexual_orientation ?? ""},
-  {'title': 'Religion', 'val': profile.religion ?? ""},
-];
-
-final List<String> hobbies = profile.interests!.toList(); 
-List<String?> fileUrls = profile.pictures?.map((pic) => pic.file_url).toList() ?? [];
-
+    final List<String> hobbies = profile.interests!.toList();
+    List<String?> fileUrls =
+        profile.pictures?.map((pic) => pic.file_url).toList() ?? [];
 
 // [
 //   "Travelling",
@@ -47,8 +45,6 @@ List<String?> fileUrls = profile.pictures?.map((pic) => pic.file_url).toList() ?
 //   "Cooking",
 //   "Movies & Cinemas",
 // ];
-
-
 
     return Scaffold(
       bottomNavigationBar: Container(
@@ -178,7 +174,8 @@ List<String?> fileUrls = profile.pictures?.map((pic) => pic.file_url).toList() ?
                         const Color.fromRGBO(236, 150, 165, 0.1),
                         const Color.fromRGBO(152, 28, 50, 1)),
                     dividerGap(),
-                    _info(profile.job_title.toString(),"",profile.address.toString()),
+                    _info(profile.job_title.toString(), "",
+                        profile.address.toString()),
                     dividerGap(),
                     _basicInformation(infoItems),
                     dividerGap(),
@@ -262,7 +259,7 @@ Widget _lastSeen() {
   );
 }
 
-Widget _acceptOrDecline(BuildContext context, UserModel profile){
+Widget _acceptOrDecline(BuildContext context, UserModel profile) {
   return SizedBox(
     height: 113.h,
     // decoration: BoxDecoration(
@@ -313,12 +310,17 @@ Widget _acceptOrDecline(BuildContext context, UserModel profile){
                   borderRadius: BorderRadius.circular(10.r),
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
                 //getIt<AppRouter>().push(ChooseLocationScreen());
+                final authUser = await getUserSavedLocally();
+                if (!context.mounted) return;
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PlanDateScreen(profile: profile ,),
+                      builder: (context) => PlanDateScreen(
+                        profile: profile,
+                        authUser: authUser!,
+                      ),
                     ));
               },
               child: Text("I'll go for a drink",
@@ -434,13 +436,13 @@ Widget _infoTile(String iconPath, String title, String subTitle) {
       SizedBox(
         width: 70.w,
         child: Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: Font.inter,
-                ),
-              ),
+          title,
+          style: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w500,
+            fontFamily: Font.inter,
+          ),
+        ),
       ),
       Expanded(
         child: Text(
@@ -456,10 +458,7 @@ Widget _infoTile(String iconPath, String title, String subTitle) {
   );
 }
 
-
-
-
-Widget _basicInformation(List<Map<String, String>> infoItems){
+Widget _basicInformation(List<Map<String, String>> infoItems) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ofwhich_v2/domain/user_service/model/user_object.dart';
-import 'package:ofwhich_v2/presentation/chat/payment_successful.dart';
 import 'package:ofwhich_v2/presentation/core/font.dart';
 import 'package:ofwhich_v2/presentation/general_widgets/custom_appbar.dart';
 import 'package:ofwhich_v2/presentation/general_widgets/custom_button.dart';
 import 'package:ofwhich_v2/presentation/home/user/make_payment_screen.dart';
 import 'package:ofwhich_v2/presentation/home/user/matched_profile.dart';
-import 'package:ofwhich_v2/presentation/home/user/plan_date_screen.dart';
+import 'package:ofwhich_v2/presentation/home/user/widgets/cards_stack_widget.dart';
 import 'package:ofwhich_v2/presentation/home/user/widgets/date_time_picker_screen.dart';
 
 class ChooseDateScreen extends StatefulWidget {
@@ -108,12 +107,17 @@ class _ChooseDateScreenState extends State<ChooseDateScreen> {
               height: 56.h,
               borderRadius: BorderRadius.circular(15.r),
               width: MediaQuery.of(context).size.width,
-              onPressed: () {
+              onPressed: () async {
                 if (selectedDates.isNotEmpty) {
+                  final authUser = await getUserSavedLocally();
+                  if (!context.mounted) return;
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MakePaymentScreen(profile: widget.profile,),
+                      builder: (context) => MakePaymentScreen(
+                        profile: widget.profile,
+                        authUser: authUser!,
+                      ),
                     ),
                   );
                 }

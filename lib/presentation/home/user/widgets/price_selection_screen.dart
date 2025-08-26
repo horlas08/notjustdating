@@ -5,7 +5,6 @@ import 'package:ofwhich_v2/presentation/general_widgets/custom_button.dart';
 import 'package:ofwhich_v2/presentation/home/user/choose_date_screen.dart';
 
 class PriceSelectionScreen extends StatefulWidget {
-
   final UserModel profile;
 
   const PriceSelectionScreen({super.key, required this.profile});
@@ -59,7 +58,7 @@ class _PriceSelectionScreenState extends State<PriceSelectionScreen> {
                         text: option["details"],
                         style: TextStyle(
                           fontSize: 16.sp,
-                          fontWeight: FontWeight.w400, 
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                     ],
@@ -69,9 +68,9 @@ class _PriceSelectionScreenState extends State<PriceSelectionScreen> {
               ),
             );
           }),
-      
-         // SizedBox(height: 19.h,),
-      
+
+          // SizedBox(height: 19.h,),
+
           CustomButton(
             height: 56.h,
             borderRadius: BorderRadius.circular(15.r),
@@ -82,7 +81,9 @@ class _PriceSelectionScreenState extends State<PriceSelectionScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChooseDateScreen(profile: widget.profile,),
+                        builder: (context) => ChooseDateScreen(
+                          profile: widget.profile,
+                        ),
                       ),
                     );
                   },

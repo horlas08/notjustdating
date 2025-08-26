@@ -1,12 +1,16 @@
+import 'dart:developer';
+
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ofwhich_v2/application/home_view_model/home_view_model.dart';
-import 'package:ofwhich_v2/application/login_view_model/login_view_model.dart';
 import 'package:ofwhich_v2/application/profile/profile_view_model.dart';
 import 'package:ofwhich_v2/injectable.dart';
 import 'package:ofwhich_v2/presentation/core/font.dart';
+// import 'package:ofwhich_v2/presentation/routes/app_router.gr.dart';
 import 'package:ofwhich_v2/presentation/user_profile/user/user_profile.dart';
+
+import '../../suport/index.dart';
 
 @RoutePage()
 class SettingsScreen extends StatelessWidget {
@@ -27,16 +31,23 @@ class SettingsScreen extends StatelessWidget {
                     fontFamily: Font.inter,
                     fontWeight: FontWeight.w500)),
             SizedBox(height: 50.h),
-            const ProfileCard(
-              imgIcon: "assets/images/pngs/small_profile_icon.png",
+             ProfileCard(
+              imgIcon: "assets/images/pngs/small_profile_Icon.png",
               titelText: "Personal information",
+              onPressed: () {
+
+              },
             ),
             SizedBox(
               height: 10.h,
             ),
-            const ProfileCard(
+             ProfileCard(
               imgIcon: "assets/images/pngs/notification_settings_icon.png",
               titelText: "Notification settings",
+              onPressed: () {
+                debugPrint("Navigating to Profile...");
+
+              },
             ),
             SizedBox(
               height: 10.h,
@@ -48,9 +59,15 @@ class SettingsScreen extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            const ProfileCard(
+             ProfileCard(
               imgIcon: "assets/images/pngs/support_icon.png",
               titelText: "Support",
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  Support()),
+                );
+              },
             ),
             SizedBox(
               height: 10.h,

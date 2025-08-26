@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,8 +10,10 @@ import 'package:ofwhich_v2/presentation/home/user/choose_location_screen.dart';
 
 class PlanDateScreen extends StatelessWidget {
   final UserModel profile;
+  final UserModel authUser;
 
-  const PlanDateScreen({super.key, required this.profile});
+  const PlanDateScreen(
+      {super.key, required this.profile, required this.authUser});
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +49,21 @@ class PlanDateScreen extends StatelessWidget {
                     height: 38.h,
                   ),
                   Text(
-                    "Ready to Date\nwith Rosie",
+                    "Ready to Date\nwith ${profile.username ?? profile.full_name}",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 26.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white),
+                      fontSize: 26.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
                   ),
                   SizedBox(
                     height: 35.h,
                   ),
-                  buildMatchPairWidget(profile.photo ?? ""),
+                  buildMatchPairWidget(
+                    profile.photo ?? "",
+                    authUser.photo!,
+                  ),
                   SizedBox(
                     height: 31.h,
                   ),
@@ -91,7 +98,7 @@ class PlanDateScreen extends StatelessWidget {
   }
 }
 
-Widget buildMatchPairWidget(String image) {
+Widget buildMatchPairWidget(String image, String authImage) {
   return Stack(
     alignment: Alignment.center,
     children: [
@@ -104,10 +111,13 @@ Widget buildMatchPairWidget(String image) {
             height: 112.h,
             width: 112.w,
             decoration: BoxDecoration(
-                color: Colors.black, borderRadius: BorderRadius.circular(70.r)),
-            child: Image.network(
-              image,
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(70.r),
+            ),
+            child: CachedNetworkImage(
+              imageUrl: image,
               fit: BoxFit.cover,
+              placeholder: (context, url) => CircularProgressIndicator(),
             ),
           ),
 
@@ -119,10 +129,10 @@ Widget buildMatchPairWidget(String image) {
             width: 112.w,
             decoration: BoxDecoration(
                 color: Colors.black, borderRadius: BorderRadius.circular(70.r)),
-            child: Image.asset(
-              'assets/images/pngs/dummy_home_pic.png',
-              fit: BoxFit.cover,
-            ),
+            child: CachedNetworkImage(
+                imageUrl: authImage,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => CircularProgressIndicator()),
           ),
         ],
       ),

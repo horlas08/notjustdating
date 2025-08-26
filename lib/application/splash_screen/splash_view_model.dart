@@ -32,6 +32,7 @@ class SplashViewModel extends ProfileViewModel {
     var isFirstTime = prefs.getBool('first_time');
     if (isFirstTime != null && !isFirstTime) {
       prefs.setBool('first_time', false);
+
       return false;
     } else {
       prefs.setBool('first_time', false);

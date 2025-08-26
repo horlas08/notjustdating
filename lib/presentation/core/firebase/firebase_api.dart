@@ -26,9 +26,14 @@ class FirebaseApi {
   final _locaLNotifications = FlutterLocalNotificationsPlugin();
 
   Future<void> initNotifications() async {
-    await _firebaseMessaging.requestPermission();
+    NotificationSettings settings =
+        await _firebaseMessaging.requestPermission();
     final fcmToken = await _firebaseMessaging.getToken();
-    log(fcmToken ?? "Emptyyyyy");
+    print("_________token__________");
+
+    log(settings.authorizationStatus.name);
+    log(fcmToken ?? "Empty");
+    print("_________token__________");
     initPushNotifications();
     initLocationNotifications();
     // FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ofwhich_v2/domain/user_service/model/user_object.dart';
 import 'package:ofwhich_v2/presentation/core/font.dart';
@@ -8,10 +9,6 @@ import 'package:ofwhich_v2/presentation/general_widgets/custom_button.dart';
 import 'package:ofwhich_v2/presentation/home/user/choose_budget_screen.dart';
 import 'package:ofwhich_v2/presentation/home/user/matched_profile.dart';
 import 'package:ofwhich_v2/presentation/home/user/widgets/add_location_picker.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChooseLocationScreen extends StatefulWidget {
   final UserModel profile;
@@ -32,6 +29,8 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
       builder: (context) {
         return CountryStatePickerModal(
           onSelected: (country, state) {
+            print(country);
+            print(state);
             if (state != null && state.isNotEmpty) {
               setState(() {
                 selectedLocations.add({
@@ -123,15 +122,16 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
               borderRadius: BorderRadius.circular(15.r),
               width: MediaQuery.of(context).size.width,
               onPressed: () {
-                if(selectedLocations.isNotEmpty){
-                       Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChooseBudgetScreen(profile: widget.profile,),
-                  ),
-                );
+                if (selectedLocations.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChooseBudgetScreen(
+                        profile: widget.profile,
+                      ),
+                    ),
+                  );
                 }
-               
               },
               child: Text(
                 "Next",
@@ -143,7 +143,7 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
                 ),
               ),
             ),
-             SizedBox(height: 50.h),
+            SizedBox(height: 50.h),
           ],
         ),
       ),
@@ -230,9 +230,6 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
     );
   }
 }
-
-
-
 
 // Widget backButton(){
 //   return Container(

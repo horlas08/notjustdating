@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ofwhich_v2/application/login_view_model/login_view_model.dart';
 import 'package:ofwhich_v2/presentation/core/font.dart';
-
 // import 'package:ofwhich_v2/application/login_view_model/login_view_model.dart';
 // import 'package:ofwhich/injectable.dart';
 // import 'package:ofwhich/presentation/core/font.dart';
@@ -14,7 +13,6 @@ import 'package:stacked/stacked.dart';
 
 import '../../../domain/core/validators/auth_validator.dart';
 import '../../../injectable.dart';
-import '../../general_widgets/check_box.dart';
 import '../../general_widgets/custom_appbar.dart';
 import '../../general_widgets/custom_button.dart';
 import '../../general_widgets/custom_textfield.dart';
@@ -101,9 +99,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     CustomTextFieldWidget(
                         controller: passwordController,
                         contentPadding: EdgeInsets.zero,
-                        obscureText: true,
-
-                         suffix: SvgPicture.asset("assets/images/svgs/password_show.svg"),
+                        obscureText: model.obscureConfirmPassword,
+                        suffixAction: () {
+                          model.togglePasswordVisibilty();
+                          // context.router.pop();
+                        },
+                        suffix: model.obscureConfirmPassword
+                            ? SvgPicture.asset(
+                                "assets/images/svgs/password_hide.svg")
+                            : SvgPicture.asset(
+                                "assets/images/svgs/password_show.svg"),
                         label: "Password",
                         hintText: "Enter password",
                         // validator: (value) =>
@@ -242,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         )),
-                  
+
                     CustomButton(
                         onPressed: () {},
                         height: 60.h,
@@ -256,10 +261,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               SvgPicture.asset(
                                   "assets/images/svgs/apple_logo.svg"),
-                             
                               Expanded(
                                 child: Text("Continue with Apple",
-                                textAlign: TextAlign.center,
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontFamily: Font.inter,
                                         fontSize: 16.sp,
@@ -280,16 +284,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(
                         onTap: () {
-                          getIt<AppRouter>().replace(RegisterRoute(
-                              userType: widget.userType ?? "user"),);
+                          getIt<AppRouter>().replace(
+                            RegisterRoute(userType: widget.userType ?? "user"),
+                          );
                         },
                         child: Text.rich(
                           TextSpan(
                               text: "Don't have an account? ",
                               style: TextStyle(
                                   fontFamily: Font.inter,
-                                   decoration: TextDecoration.underline,
-                              
+                                  decoration: TextDecoration.underline,
                                   fontSize: 16.sp,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w400),

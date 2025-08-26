@@ -15,7 +15,6 @@ import 'package:ofwhich_v2/presentation/routes/app_router.gr.dart';
 import 'package:ofwhich_v2/presentation/user_profile/widgets/multiple_chips.dart';
 import 'package:ofwhich_v2/presentation/utils/util.dart';
 import 'package:provider/provider.dart';
-import 'package:stacked/stacked.dart';
 
 import '../../../application/profile/profile_view_model.dart';
 import '../../../injectable.dart';
@@ -69,13 +68,14 @@ class _UserProfileDetailsState extends State<UserProfileDetails> {
           onRefresh: () async {
             model.getUserProfile();
           },
-          child: SingleChildScrollView(
+          child: model.isBusy ?
+          const Center(child: CircularProgressIndicator(),)
+            :SingleChildScrollView(
             
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0.w),
               child: model.isBusy
-                  ? const Center(child: CircularProgressIndicator())
-                  : model.user == null ||
+                  && model.user == null ||
                           model.user?.full_name == null ||
                           model.user?.dob == null ||
                           model.user?.photo == null

@@ -106,7 +106,8 @@ class _WalletDepositState extends State<WalletDeposit> {
                                           child: currentIndex == index
                                               ? Image.asset(
                                                   "assets/images/pngs/selection_circle.png",
-                                                  scale: 1.8)
+                                                  scale: 1.8,
+                                                )
                                               : Container(
                                                   height: 15.h,
                                                   width: 15.w,
@@ -147,9 +148,10 @@ class _WalletDepositState extends State<WalletDeposit> {
                 CustomTextFieldWidget(
                   controller: amountController,
                   textStyle: TextStyle(
-                      fontSize: 16.sp,
-                      fontFamily: Font.inter,
-                      color: const Color(0xFF434343)),
+                    fontSize: 16.sp,
+                    fontFamily: Font.inter,
+                    color: const Color(0xFF434343),
+                  ),
                   prefix: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

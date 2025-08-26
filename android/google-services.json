@@ -1,51 +1,26 @@
 {
   "project_info": {
-    "project_number": "56917067893",
-    "project_id": "ofwhic",
-    "storage_bucket": "ofwhic.appspot.com"
+    "project_number": "824675658142",
+    "project_id": "notjustdatingapp-63d16",
+    "storage_bucket": "notjustdatingapp-63d16.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:56917067893:android:5a52b9aac802be5249103c",
+        "mobilesdk_app_id": "1:824675658142:android:ce6ed097f4c8a1f94f0e8f",
         "android_client_info": {
-          "package_name": "com.adlio.ofwhich"
+          "package_name": "com.notjustdating.app"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "56917067893-92lugaqi128jr1o0lj78gdi4svn1umn9.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.adlio.ofwhich",
-            "certificate_hash": "cbe88e3a2ddadf083ecd00866bf04d0b59341083"
-          }
-        },
-        {
-          "client_id": "56917067893-7ot742k3vp255ru4he6bd4edvhcvt7ha.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAzg7QtS1sUl0pO6NTp9RyiGfyBIXRFF6A"
+          "current_key": "AIzaSyDNvUTNnmhDMd1AzIjpnR66I_XQWkqdh9Y"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "56917067893-7ot742k3vp255ru4he6bd4edvhcvt7ha.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "56917067893-are3aq4qlr1fdvsal63d2180p65p556n.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.adlio.ofwhich"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

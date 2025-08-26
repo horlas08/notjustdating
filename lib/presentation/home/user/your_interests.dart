@@ -1,6 +1,5 @@
 // import 'package:flutter/foundation.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ofwhich_v2/injectable.dart';
@@ -9,7 +8,6 @@ import 'package:ofwhich_v2/presentation/general_widgets/custom_appbar.dart';
 import 'package:ofwhich_v2/presentation/home/user/widgets/app_image_widget.dart';
 import 'package:ofwhich_v2/presentation/routes/app_router.gr.dart';
 import 'package:provider/provider.dart';
-import 'package:stacked/stacked.dart';
 
 import '../../../application/home_view_model/home_view_model.dart';
 import '../../../domain/user_service/model/user_object.dart';
@@ -58,11 +56,14 @@ class _YourInterestsState extends State<YourInterests> {
                     ? const Center(child: Text('No profile likes yet'))
                     : Column(
                         children: [
-                          Text('Likes ${model.profileLikes.length}',
-                              style: TextStyle(
-                                  fontFamily: Font.inter,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400)),
+                          Text(
+                            'Likes ${model.profileLikes.length}',
+                            style: TextStyle(
+                              fontFamily: Font.inter,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
                           GridView.builder(
                               shrinkWrap: true,
                               itemCount: model.profileLikes.length,
