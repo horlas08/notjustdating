@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ofwhich_v2/application/app_state/provider/date_request_provider.dart';
 import 'package:ofwhich_v2/domain/user_service/model/user_object.dart';
 import 'package:ofwhich_v2/presentation/core/font.dart';
 import 'package:ofwhich_v2/presentation/general_widgets/custom_appbar.dart';
@@ -9,9 +10,11 @@ import 'package:ofwhich_v2/presentation/home/user/make_payment_screen.dart';
 import 'package:ofwhich_v2/presentation/home/user/matched_profile.dart';
 import 'package:ofwhich_v2/presentation/home/user/widgets/cards_stack_widget.dart';
 import 'package:ofwhich_v2/presentation/home/user/widgets/date_time_picker_screen.dart';
+import 'package:provider/provider.dart';
 
 class ChooseDateScreen extends StatefulWidget {
   final UserModel profile;
+
   const ChooseDateScreen({super.key, required this.profile});
 
   @override
@@ -56,88 +59,96 @@ class _ChooseDateScreenState extends State<ChooseDateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: OfWhichAppBar(
-        titleText: "Plan a Date",
-        backgroundColor: Colors.white,
-      ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 26.h),
-            Text(
-              "Choose date and time",
-              style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w600),
-            ),
-            SizedBox(height: 5.h),
-            Text(
-              "Set your availability for your date",
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400),
-            ),
-            SizedBox(height: 35.h),
-            InkWell(
-              onTap: _openDatePicker,
-              child: _addDate(),
-            ),
-            dividerGap(),
-            Text(
-              "Selected date and time",
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
-            ),
-            SizedBox(height: 19.h),
-            Expanded(
-              child: ListView.builder(
-                itemCount: selectedDates.length,
-                itemBuilder: (context, index) {
-                  final item = selectedDates[index];
-                  return Padding(
-                    padding: EdgeInsets.only(bottom: 19.h),
-                    child: _dateTile(
-                      item["time"]!,
-                      item["date"]!,
-                      () => _removeDate(index),
-                    ),
-                  );
-                },
-              ),
-            ),
-            CustomButton(
-              height: 56.h,
-              borderRadius: BorderRadius.circular(15.r),
-              width: MediaQuery.of(context).size.width,
-              onPressed: () async {
-                if (selectedDates.isNotEmpty) {
-                  final authUser = await getUserSavedLocally();
-                  if (!context.mounted) return;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MakePaymentScreen(
-                        profile: widget.profile,
-                        authUser: authUser!,
-                      ),
-                    ),
-                  );
-                }
-              },
-              child: Text(
-                "Next",
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: Colors.white,
-                  fontFamily: Font.inter,
-                  fontWeight: FontWeight.w400,
+    return Consumer<DateRequestProvider>(
+      builder:
+          (BuildContext context, DateRequestProvider value, Widget? child) {
+        return Scaffold(
+          appBar: OfWhichAppBar(
+            titleText: "Plan a Date",
+            backgroundColor: Colors.white,
+          ),
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 26.h),
+                Text(
+                  "Choose date and time",
+                  style:
+                      TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w600),
                 ),
-              ),
+                SizedBox(height: 5.h),
+                Text(
+                  "Set your availability for your date",
+                  style:
+                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400),
+                ),
+                SizedBox(height: 35.h),
+                InkWell(
+                  onTap: _openDatePicker,
+                  child: _addDate(),
+                ),
+                dividerGap(),
+                Text(
+                  "Selected date and time",
+                  style:
+                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: 19.h),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: selectedDates.length,
+                    itemBuilder: (context, index) {
+                      final item = selectedDates[index];
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 19.h),
+                        child: _dateTile(
+                          item["time"]!,
+                          item["date"]!,
+                          () => _removeDate(index),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                CustomButton(
+                  height: 56.h,
+                  borderRadius: BorderRadius.circular(15.r),
+                  width: MediaQuery.of(context).size.width,
+                  onPressed: () async {
+                    if (selectedDates.isNotEmpty) {
+                      final authUser = await getUserSavedLocally();
+                      if (!context.mounted) return;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MakePaymentScreen(
+                            profile: widget.profile,
+                            authUser: authUser!,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text(
+                    "Next",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: Colors.white,
+                      fontFamily: Font.inter,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 50.h,
+                )
+              ],
             ),
-            SizedBox(
-              height: 50.h,
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
